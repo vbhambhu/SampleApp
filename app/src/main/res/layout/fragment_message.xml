@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright"
     tools:context="com.gochyou.app.gochyou.MessageFragment">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#142e56"
+        android:background="#FFFFFF"
+        android:layout_above="@+id/MsgFramesHolder"
         app:menu="@menu/messages_nav">
 
         <android.support.design.widget.TabItem
@@ -28,52 +32,14 @@
 
     </android.support.design.widget.TabLayout>
 
-
-    <!--<android.support.v4.app.FragmentTabHost-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#FFC2134E"-->
-        <!--app:menu="@menu/messages_nav"-->
-        <!--android:layout_alignParentBottom="true">-->
-
-    <!--</android.support.v4.app.FragmentTabHost>-->
-
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#FFC2134E"-->
-        <!--android:id="@+id/someid"-->
-        <!--app:menu="@menu/messages_nav"-->
-        <!--android:layout_alignParentBottom="true">-->
-
-    <!--</android.support.design.widget.NavigationView>-->
-
-
-
-
     <FrameLayout
         android:id="@+id/MsgFramesHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/MsgFramesHolder"
-        android:animateLayoutChanges="true">
+        android:layout_below="@+id/tabs"
+        tools:context=".ReceivedMsgFragment">
     </FrameLayout>
 
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvMessages"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
-
-    </android.support.v7.widget.RecyclerView>
-
+    </LinearLayout>
 </FrameLayout>

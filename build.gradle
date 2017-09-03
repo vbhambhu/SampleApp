@@ -2,7 +2,10 @@
 
 buildscript {
     repositories {
-        jcenter()
+        jcenter {
+            url "http://jcenter.bintray.com/"
+        }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -21,3 +24,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

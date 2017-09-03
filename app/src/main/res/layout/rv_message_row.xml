@@ -5,25 +5,39 @@ android:layout_height="wrap_content"
 android:clickable="true"
 android:focusable="true"
 android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     android:divider="@color/colorPrimary"
     android:dividerHeight="1px">
 
+    <!-- Thumbnail Image -->
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:background="#000"/>
 
 
 
+    <!-- Movie Title -->
+    <TextView
+        android:id="@+id/rvMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/rvMessageCreatedAt"
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/rvMessageText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    />
 
 <TextView
     android:id="@+id/rvMessageCreatedAt"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:layout_alignParentRight="true"
+    android:layout_marginLeft="5dp"
     android:textStyle="bold" />
 
 </RelativeLayout>

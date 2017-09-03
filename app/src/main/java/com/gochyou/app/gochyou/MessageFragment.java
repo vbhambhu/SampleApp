@@ -46,22 +46,8 @@ import java.util.List;
 public class MessageFragment extends Fragment {
 
     private Context frameContext;
-    private RecyclerView recyclerView;
-    private List<Message> messageList = new ArrayList<Message>();
-    private RequestQueue requestQueue;
-    private Gson gson;
-
-    private ProgressBar spinner;
-
-
     private TabLayout tabLayout;
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.frameContext=context;
-    }
+    private Fragment childFragment;
 
 
     public static MessageFragment newInstance() {
@@ -72,58 +58,46 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        //Get data from remote
-        requestQueue = Volley.newRequestQueue(this.frameContext);
-
-        //Initilaize GsonBuilder
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
-
-        //Now fetch messages remotely
-
-
-
-        fetchMessages();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_message, container, false);
-        recyclerView = view.findViewById(R.id.rvMessages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.frameContext)); //set layoutManger
-
-        //recyclerView.setVisibility(View.GONE);
-        spinner=(ProgressBar)view.findViewById(R.id.progress_bar);
-        spinner.setVisibility(View.VISIBLE);
-
-
-//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.someid);
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+
+
+
+
+
+
+
+        //tabLayout.getTabAt(1).select();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                Fragment selectedFragment = null;
-
+                childFragment = null;
 
                 if(tab.getPosition() == 0){
-                    selectedFragment = ReceivedMsgFragment.newInstance();
+                    childFragment = new ReceivedMsgFragment();
+
                 } else{
-                    selectedFragment = SentMsgFragment.newInstance();
+                    childFragment = new SentMsgFragment();
+
                 }
 
-                FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.MsgFramesHolder, selectedFragment);
-                transaction.commit();
+
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.replace(R.id.MsgFramesHolder, childFragment).commit();
+
+
+//                FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.MsgFramesHolder, childFragment);
+//                transaction.commit();
                 //viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -146,55 +120,11 @@ public class MessageFragment extends Fragment {
     }
 
 
-
-
-
-    private void fetchMessages() {
-        System.out.println("Now in fetchMessages");
-
-        String url = "http://10.0.2.2/guesswho/api/get_messages";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, onMessagesLoaded, onMessagesError);
-        requestQueue.add(request);
-    }
-
-    private final Response.Listener<String> onMessagesLoaded = new Response.Listener<String>() {
-
-        @Override
-        public void onResponse(String response) {
-
-
-            System.out.println(response);
-            //deserilize response and add to messages list.
-            messageList = Arrays.asList(gson.fromJson(response, Message[].class));
-
-            System.out.println(messageList);
-            //create an adapter
-            ReceivedMessageAdapter adapter = new ReceivedMessageAdapter(messageList);
-            //finally set adapter
-            recyclerView.setAdapter(adapter);
-
-            spinner.setVisibility(View.GONE);
-        }
-    };
-
-    private final Response.ErrorListener onMessagesError = new Response.ErrorListener() {
-
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            System.out.println("Messages load fail");
-            Log.e("PostActivity", error.toString());
-        }
-    };
-
-
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.messages_nav, menu);  // Use filter.xml from step 1
-
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        childFragment = new ReceivedMsgFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.MsgFramesHolder, childFragment).commit();
     }
-
-
-
 
 }

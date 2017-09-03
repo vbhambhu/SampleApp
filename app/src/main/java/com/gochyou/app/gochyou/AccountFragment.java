@@ -9,9 +9,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.gochyou.app.gochyou.helpers.SessionManager;
 
 
 public class AccountFragment extends Fragment {
+
+    SessionManager session;
+    Context frameContext;
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.frameContext=context;
+
+         // Session Manager
+        session = new SessionManager(frameContext);
+
+    }
 
     public static AccountFragment newInstance() {
         AccountFragment fragment = new AccountFragment();
@@ -28,7 +45,19 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view =  inflater.inflate(R.layout.fragment_account, container, false);
+
+        final Button button = view.findViewById(R.id.logout_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                session.logout();
+
+                System.out.println("logout");
+            }
+        });
+
+        return view;
     }
 
 
