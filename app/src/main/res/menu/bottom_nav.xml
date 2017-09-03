@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Messages"
+        android:id="@+id/navBtnMsg" />
+
+    <item
+        android:title="Freinds"
+        android:id="@+id/navBtnFrds" />
+
+    <item
+        android:title="Account"
+        android:id="@+id/navBtnAcnt" />
+
+
+</menu>
