@@ -1,4 +1,4 @@
-package com.gochyou.app.gochyou;
+package com.gochyou.app.gochyou.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -19,7 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.gochyou.app.gochyou.R;
 import com.gochyou.app.gochyou.adapters.ReceivedMessageAdapter;
+import com.gochyou.app.gochyou.helpers.SessionManager;
 import com.gochyou.app.gochyou.models.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,11 +40,17 @@ public class ReceivedMsgFragment extends Fragment {
     private Gson gson;
     private ProgressBar spinner;
 
+    private int userId;
+    SessionManager session;
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.frameContext=context;
+        //Get userid
+        session = new SessionManager(context);
+        userId = session.getUserId();
     }
 
 
@@ -94,8 +102,10 @@ public class ReceivedMsgFragment extends Fragment {
     private void fetchMessages() {
 
         System.out.println("Now in fetchMessages");
+        String url = "http://10.0.2.2/gochyouapi/api/message/received?uid="+ userId;
 
-        String url = "http://10.0.2.2/guesswho/api/get_messages";
+
+        System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.GET, url, onMessagesLoaded, onMessagesError);
         requestQueue.add(request);
     }

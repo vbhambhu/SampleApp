@@ -1,12 +1,8 @@
 package com.gochyou.app.gochyou.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -14,9 +10,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.gochyou.app.gochyou.HomeActivity;
 import com.gochyou.app.gochyou.R;
-import com.facebook.FacebookSdk;
 import com.gochyou.app.gochyou.helpers.SessionManager;
 
 
@@ -46,7 +40,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         // App code
 
                         // Use user real data
-                        session.createLoginSession("Vinod Kumar", "anroidhive@gmail.com");
+                       // session.createLoginSession("Vinod Kumar", "anroidhive@gmail.com");
 
                         // Staring homeActivity
                         Intent i = new Intent(getApplicationContext(), HomeActivity.class);

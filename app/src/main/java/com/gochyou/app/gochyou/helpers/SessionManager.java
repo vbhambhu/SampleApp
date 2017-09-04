@@ -30,11 +30,11 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
 
-    // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_UID = "uid";
+    public static final String KEY_FBID = "fbid";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_PROFILE_IMG = "profile_img";
 
     // Constructor
     public SessionManager(Context context){
@@ -46,15 +46,14 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String name, String email){
+    public void createLoginSession(int uid, String fbid, String name, String image){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
-        // Storing name in pref
+        editor.putInt(KEY_UID, uid);
         editor.putString(KEY_NAME, name);
-
-        // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_FBID, fbid);
+        editor.putString(KEY_PROFILE_IMG, image);
 
         // commit changes
         editor.commit();
@@ -95,11 +94,11 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
+        user.put(KEY_UID, pref.getString(KEY_UID, null));
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
-        // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-
+        user.put(KEY_FBID, pref.getString(KEY_FBID, null));
+        user.put(KEY_PROFILE_IMG, pref.getString(KEY_PROFILE_IMG, null));
         // return user
         return user;
     }
@@ -135,4 +134,10 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
     }
+
+    public int getUserId(){
+        return pref.getInt(KEY_UID, 0);
+    }
+
+
 }

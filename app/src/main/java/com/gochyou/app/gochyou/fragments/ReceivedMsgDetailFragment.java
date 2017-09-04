@@ -1,4 +1,4 @@
-package com.gochyou.app.gochyou;
+package com.gochyou.app.gochyou.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.gochyou.app.gochyou.R;
 
 public class ReceivedMsgDetailFragment extends Fragment {
 

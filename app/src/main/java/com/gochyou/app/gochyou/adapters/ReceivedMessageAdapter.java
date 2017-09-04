@@ -4,17 +4,13 @@ package com.gochyou.app.gochyou.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.gochyou.app.gochyou.R;
-import com.gochyou.app.gochyou.ReceivedMsgFragment;
 import com.gochyou.app.gochyou.activities.ReceivedMessageDetailActivity;
 import com.gochyou.app.gochyou.models.Message;
 
@@ -24,7 +20,7 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
 
     private List<Message> messageList;
     private Context frameContext;
-    private Dialog dialog;
+    boolean isLoading = false;
 
 
     public interface OnItemClickListener {
@@ -79,6 +75,20 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
 
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
+
+
+        /*
+        0if(position>=getItemCount()-1 && isMoreDataAvailable && !isLoading && loadMoreListener!=null){
+            isLoading = true;
+            loadMoreListener.onLoadMore();
+        }
+
+        if(getItemViewType(position)==TYPE_MOVIE){
+            ((MovieHolder)holder).bindData(movies.get(position));
+        }
+
+        */
+
         Message message = messageList.get(position);
         holder.messageHolder.setText(message.getMessage());
         holder.timestampHolder.setText(message.getCreated_at());

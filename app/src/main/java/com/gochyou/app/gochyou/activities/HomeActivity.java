@@ -1,4 +1,4 @@
-package com.gochyou.app.gochyou;
+package com.gochyou.app.gochyou.activities;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 
+import com.gochyou.app.gochyou.fragments.AccountFragment;
+import com.gochyou.app.gochyou.fragments.FriendFragment;
+import com.gochyou.app.gochyou.fragments.MessageFragment;
+import com.gochyou.app.gochyou.R;
 import com.gochyou.app.gochyou.helpers.SessionManager;
 
 public class HomeActivity extends AppCompatActivity {
@@ -19,9 +22,15 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         // Session Manager
         session = new SessionManager(getApplicationContext());
+
+        if(!session.isLoggedIn()){
+            session.createLoginSession(1, "4322432", "Vinod Kumar", "py photo");
+        }
+
+
+        System.out.println("==============" +session.getUserId());
 
         //session.checkLogin();
 

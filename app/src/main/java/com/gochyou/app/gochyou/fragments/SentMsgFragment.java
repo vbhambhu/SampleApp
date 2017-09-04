@@ -1,4 +1,4 @@
-package com.gochyou.app.gochyou;
+package com.gochyou.app.gochyou.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.gochyou.app.gochyou.R;
 import com.gochyou.app.gochyou.adapters.ReceivedMessageAdapter;
 import com.gochyou.app.gochyou.models.Message;
 import com.google.gson.Gson;
