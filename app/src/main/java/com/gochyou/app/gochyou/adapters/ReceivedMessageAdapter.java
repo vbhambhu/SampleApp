@@ -22,8 +22,13 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
 
     private List<Message> messageList;
     private Context frameContext;
-    boolean isLoading = false;
     private ImageLoader mImageLoader;
+
+    OnLoadMoreListener loadMoreListener;
+    boolean isLoading = false;
+    boolean isMoreDataAvailable = true;
+
+
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
@@ -92,11 +97,16 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
 
         */
 
+        if(position>=getItemCount()-1 && isMoreDataAvailable && !isLoading  && loadMoreListener!=null){
+            System.out.println("====load more here===="+position);
+            loadMoreListener.onLoadMore();
+        }
+
 
         Message message = messageList.get(position);
 
-        System.out.println("========"+message.getImage());
-        holder.messageHolder.setText(message.getMessage());
+
+        holder.messageHolder.setText(message.getMessage() + "---" +  message.getId());
         holder.timestampHolder.setText(message.getCreated_at());
         //holder.thumbHolder.setImageUrl(message.getImage(), mImageLoader );
 
@@ -122,8 +132,18 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
         return messageList.size();
     }
 
+    public void notifyDataChanged(){
+        notifyDataSetChanged();
+        isLoading = false;
+    }
 
+    public interface OnLoadMoreListener{
+        void onLoadMore();
+    }
 
+    public void setLoadMoreListener(OnLoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
+    }
 
 
 }

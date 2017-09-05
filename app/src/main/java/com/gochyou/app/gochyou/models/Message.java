@@ -4,12 +4,11 @@ package com.gochyou.app.gochyou.models;
 public class Message {
 
     private int id;
-    private int from_id;
-    private int to_id;
     private String message;
+    private String image;
     private boolean is_read;
     private String created_at;
-    private String image;
+
 
     public int getId() {
         return id;
@@ -17,22 +16,6 @@ public class Message {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getFrom_id() {
-        return from_id;
-    }
-
-    public void setFrom_id(int from_id) {
-        this.from_id = from_id;
-    }
-
-    public int getTo_id() {
-        return to_id;
-    }
-
-    public void setTo_id(int to_id) {
-        this.to_id = to_id;
     }
 
     public String getMessage() {

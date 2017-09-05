@@ -42,7 +42,7 @@ public class MessageFragment extends Fragment {
     private ProgressBar spinner;
     private int userId;
     SessionManager session;
-
+    ReceivedMessageAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -65,7 +65,11 @@ public class MessageFragment extends Fragment {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
         //Now fetch messages remotely
-        fetchMessages();
+        //fetchMessages(0);
+
+
+
+
     }
 
     @Override
@@ -78,17 +82,58 @@ public class MessageFragment extends Fragment {
 
         spinner=(ProgressBar)view.findViewById(R.id.progress_bar);
         spinner.setVisibility(View.VISIBLE);
+
+        //create an adapter
+        adapter = new ReceivedMessageAdapter(messageList, frameContext);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                  int visibleItemCount = recyclerView.getChildCount();
+
+                System.out.println(visibleItemCount);
+//                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                int firstVisibleItem = manager.findFirstVisibleItemPosition();
+//                int lastInScreen = firstVisibleItem + visibleItemCount;
+//
+//                if (isAutoScroll(lastInScreen)) {
+//                    isLoading = true;
+//                    load();
+//                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
+
+
+
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (messageList.size() == 0) {
+            System.out.println("running on startttttttttt");
+            fetchMessages(0);
+        }
     }
 
 
     //custom methods
-    private void fetchMessages() {
+    private void fetchMessages(int offset) {
 
         System.out.println("Now in fetchMessages");
-        String url = "http://10.0.2.2/gochyou/api/message/conversations?uid="+ userId;
-
-
+        String url = "http://10.0.2.2/gochyou/api/message/conversations?uid="+ userId+"&offset="+offset;
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.GET, url, onMessagesLoaded, onMessagesError);
         requestQueue.add(request);
@@ -106,6 +151,26 @@ public class MessageFragment extends Fragment {
             System.out.println(messageList);
             //create an adapter
             ReceivedMessageAdapter adapter = new ReceivedMessageAdapter(messageList, frameContext);
+
+
+//            adapter.setLoadMoreListener(new ReceivedMessageAdapter.OnLoadMoreListener() {
+//                @Override
+//                public void onLoadMore() {
+//
+//                    recyclerView.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            int offset = messageList.size();
+//
+//                            System.out.println("load more" + offset);
+//                            fetchMessages(offset);// a method which requests remote data
+//                        }
+//                    });
+//                    //Calling loadMore function in Runnable to fix the
+//                    // java.lang.IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling error
+//                }
+//            });
+
             //finally set adapter
             recyclerView.setAdapter(adapter);
 
@@ -121,5 +186,58 @@ public class MessageFragment extends Fragment {
             Log.e("PostActivity", error.toString());
         }
     };
+
+
+    private void loadMore(int offset){
+
+        System.out.println("load more message");
+        String url = "http://10.0.2.2/gochyou/api/message/conversations?uid="+ userId;
+
+
+        System.out.println(url);
+        StringRequest request = new StringRequest(Request.Method.GET, url, onMessagesLoaded, onMessagesError);
+        requestQueue.add(request);
+
+
+
+
+        /*add loading progress view
+        movies.add(new MovieModel("load"));
+        adapter.notifyItemInserted(movies.size()-1);
+
+        Call<List<MovieModel>> call = api.getMovies(index);
+        call.enqueue(new Callback<List<MovieModel>>() {
+            @Override
+            public void onResponse(Call<List<MovieModel>> call, Response<List<MovieModel>> response) {
+                if(response.isSuccessful()){
+
+                    //remove loading view
+                    movies.remove(movies.size()-1);
+
+                    List<MovieModel> result = response.body();
+                    if(result.size()>0){
+                        //add loaded data
+                        movies.addAll(result);
+                    }else{//result size 0 means there is no more data available at server
+                        adapter.setMoreDataAvailable(false);
+                        //telling adapter to stop calling load more as no more server data available
+                        Toast.makeText(context,"No More Data Available",Toast.LENGTH_LONG).show();
+                    }
+                    adapter.notifyDataChanged();
+                    //should call the custom method adapter.notifyDataChanged here to get the correct loading status
+                }else{
+                    Log.e(TAG," Load More Response Error "+String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MovieModel>> call, Throwable t) {
+                Log.e(TAG," Load More Response Error "+t.getMessage());
+            }
+        });
+
+        */
+    }
+
 
 }
