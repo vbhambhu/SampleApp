@@ -42,7 +42,9 @@ public class MessageFragment extends Fragment {
     private ProgressBar spinner;
     private int userId;
     SessionManager session;
-    ReceivedMessageAdapter adapter;
+
+    boolean loadmore = true;
+    int offset = 0;
 
     @Override
     public void onAttach(Context context) {
@@ -65,7 +67,7 @@ public class MessageFragment extends Fragment {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
         //Now fetch messages remotely
-        //fetchMessages(0);
+        fetchMessages(0);
 
 
 
@@ -84,8 +86,7 @@ public class MessageFragment extends Fragment {
         spinner.setVisibility(View.VISIBLE);
 
         //create an adapter
-        adapter = new ReceivedMessageAdapter(messageList, frameContext);
-        recyclerView.setAdapter(adapter);
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -95,15 +96,31 @@ public class MessageFragment extends Fragment {
 
                   int visibleItemCount = recyclerView.getChildCount();
 
-                System.out.println(visibleItemCount);
-//                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                int firstVisibleItem = manager.findFirstVisibleItemPosition();
-//                int lastInScreen = firstVisibleItem + visibleItemCount;
-//
-//                if (isAutoScroll(lastInScreen)) {
-//                    isLoading = true;
-//                    load();
-//                }
+
+
+
+                //
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+               // int firstVisibleItem = manager.findFirstVisibleItemPosition();
+
+
+                int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+
+
+               // System.out.println(" System.out.println(lastVisiblePosition);" +lastVisiblePosition);
+               // System.out.println("messageList.size()" +messageList.size() );
+                if ((messageList.size() -1) == lastVisiblePosition) {
+
+
+
+                    if (loadmore) {
+                        loadmore = false;
+                        System.out.println("==================================");
+
+                        fetchMessages(offset);
+
+                    }
+                }
             }
 
             @Override
@@ -119,20 +136,14 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (messageList.size() == 0) {
-            System.out.println("running on startttttttttt");
-            fetchMessages(0);
-        }
-    }
-
 
     //custom methods
-    private void fetchMessages(int offset) {
+    private void fetchMessages(int pos) {
 
-        System.out.println("Now in fetchMessages");
+
+
+
+       // System.out.println("Now in fetchMessages");
         String url = "http://10.0.2.2/gochyou/api/message/conversations?uid="+ userId+"&offset="+offset;
         System.out.println(url);
         StringRequest request = new StringRequest(Request.Method.GET, url, onMessagesLoaded, onMessagesError);
@@ -144,11 +155,14 @@ public class MessageFragment extends Fragment {
         @Override
         public void onResponse(String response) {
 
-            System.out.println(response);
+           // System.out.println(response);
             //deserilize response and add to messages list.
-            messageList = Arrays.asList(gson.fromJson(response, Message[].class));
+            List<Message> remoteMsgs = Arrays.asList(gson.fromJson(response, Message[].class));
+            messageList.addAll(remoteMsgs);
 
-            System.out.println(messageList);
+
+
+           // System.out.println(messageList);
             //create an adapter
             ReceivedMessageAdapter adapter = new ReceivedMessageAdapter(messageList, frameContext);
 
@@ -173,6 +187,12 @@ public class MessageFragment extends Fragment {
 
             //finally set adapter
             recyclerView.setAdapter(adapter);
+
+            adapter.notifyDataChanged();
+
+            offset  = messageList.size();
+            System.out.println("**************setting ooffset value" + offset);
+            loadmore = true;
 
             spinner.setVisibility(View.GONE);
         }
