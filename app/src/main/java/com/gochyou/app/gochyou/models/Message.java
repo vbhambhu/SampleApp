@@ -9,6 +9,7 @@ public class Message {
     private String message;
     private boolean is_read;
     private String created_at;
+    private String image;
 
     public int getId() {
         return id;
@@ -56,5 +57,13 @@ public class Message {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

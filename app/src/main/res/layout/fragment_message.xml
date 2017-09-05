@@ -6,40 +6,21 @@
     tools:context="com.gochyou.app.gochyou.fragments.MessageFragment">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:layout_above="@+id/MsgFramesHolder"
-        app:menu="@menu/messages_nav">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Received" />
+        android:layout_gravity="center" />
 
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sent" />
-
-    </android.support.design.widget.TabLayout>
-
-    <FrameLayout
-        android:id="@+id/MsgFramesHolder"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMessages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tabs"
-        tools:context=".fragments.ReceivedMsgFragment">
-    </FrameLayout>
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
 
 
-    </LinearLayout>
 </FrameLayout>

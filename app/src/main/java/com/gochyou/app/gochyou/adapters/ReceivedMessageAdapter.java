@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.gochyou.app.gochyou.R;
 import com.gochyou.app.gochyou.activities.ReceivedMessageDetailActivity;
 import com.gochyou.app.gochyou.models.Message;
@@ -21,7 +23,7 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
     private List<Message> messageList;
     private Context frameContext;
     boolean isLoading = false;
-
+    private ImageLoader mImageLoader;
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
@@ -37,11 +39,12 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
     public class MessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView messageHolder;
         public TextView timestampHolder;
+        public NetworkImageView thumbHolder;
         public MessageViewHolder(View view) {
             super(view);
             messageHolder = (TextView) view.findViewById(R.id.rvMessageText);
             timestampHolder =  (TextView) view.findViewById(R.id.rvMessageCreatedAt);
-
+           // thumbHolder =  (NetworkImageView) view.findViewById(R.id.thumbnail);
             view.setOnClickListener(this);
 
         }
@@ -89,9 +92,14 @@ public class ReceivedMessageAdapter extends RecyclerView.Adapter<ReceivedMessage
 
         */
 
+
         Message message = messageList.get(position);
+
+        System.out.println("========"+message.getImage());
         holder.messageHolder.setText(message.getMessage());
         holder.timestampHolder.setText(message.getCreated_at());
+        //holder.thumbHolder.setImageUrl(message.getImage(), mImageLoader );
+
     }
 
 

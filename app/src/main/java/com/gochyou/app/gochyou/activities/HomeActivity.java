@@ -52,13 +52,13 @@ public class HomeActivity extends AppCompatActivity {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.navBtnMsg:
-                                selectedFragment = MessageFragment.newInstance();
+                                selectedFragment = new MessageFragment();
                                 break;
                             case R.id.navBtnFrds:
-                                selectedFragment = FriendFragment.newInstance();
+                                selectedFragment = new FriendFragment();
                                 break;
                             case R.id.navBtnAcnt:
-                                selectedFragment = AccountFragment.newInstance();
+                                selectedFragment = new AccountFragment();
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Manually displaying the first fragment - one time only
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.HomeFramesHolder, MessageFragment.newInstance());
+        transaction.replace(R.id.HomeFramesHolder, new MessageFragment());
         transaction.commit();
 
 

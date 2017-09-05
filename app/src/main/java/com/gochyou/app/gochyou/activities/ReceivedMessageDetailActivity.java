@@ -51,6 +51,11 @@ public class ReceivedMessageDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_received_message_detail);
 
+
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+
+
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -135,6 +140,12 @@ public class ReceivedMessageDetailActivity extends AppCompatActivity {
             Log.e("PostActivity", error.toString());
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    }
 
 
 
